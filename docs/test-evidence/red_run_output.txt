@@ -1,0 +1,49 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/claude/bus-reservation
+collecting ... collected 18 items / 17 deselected / 1 selected
+
+tests/test_seat_allocator.py::test_DELIBERATE_RED_RUN_male_should_not_book_reserved_seat FAILED [100%]
+
+=================================== FAILURES ===================================
+__________ test_DELIBERATE_RED_RUN_male_should_not_book_reserved_seat __________
+
+    def test_DELIBERATE_RED_RUN_male_should_not_book_reserved_seat():
+        seats = make_bus_layout(3, bus_type="SEATER", female_reserved_pairs=1)
+        reserved_seat = next(s for s in seats if s.reserved_female)
+        # WRONG on purpose: real code raises ReservedSeatError here, so
+        # asserting a successful booking will FAIL.
+>       chosen = manual_assign(seats, seat_id=reserved_seat.id, gender="M")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_seat_allocator.py:188: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+seats = [Seat(id=1, row=1, col='A', pair_id=0, aisle_after=False, deck=None, reserved_female=True, status=<SeatStatus.FREE: 'F...k=None, reserved_female=False, status=<SeatStatus.FREE: 'FREE'>, gender=None, group_id=None, passenger_name=None), ...]
+seat_id = 1, gender = <Gender.MALE: 'M'>
+
+    def manual_assign(seats: List[Seat], seat_id: int, gender) -> Seat:
+        """
+        Book a specific seat chosen by the passenger.
+    
+        Raises:
+            InvalidBookingInput - bad gender / unknown seat_id
+            NoSeatAvailableError - seat already booked
+            ReservedSeatError - seat is reserved for female passengers and this
+                passenger is not female
+        """
+        gender = _validate_gender(gender)
+        seat = next((s for s in seats if s.id == seat_id), None)
+        if seat is None:
+            raise InvalidBookingInput(f"No such seat_id: {seat_id}")
+        if seat.status == SeatStatus.BOOKED:
+            raise NoSeatAvailableError(f"Seat {seat_id} is already booked")
+        if seat.reserved_female and gender != Gender.FEMALE:
+>           raise ReservedSeatError(seat.id)
+E           seat_allocator.ReservedSeatError: This seat is reserved for female passengers. Please choose another seat.
+
+seat_allocator.py:186: ReservedSeatError
+=========================== short test summary info ============================
+FAILED tests/test_seat_allocator.py::test_DELIBERATE_RED_RUN_male_should_not_book_reserved_seat
+======================= 1 failed, 17 deselected in 0.04s =======================

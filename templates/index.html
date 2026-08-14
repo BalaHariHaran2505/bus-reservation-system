@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Buses{% endblock %}
+{% block content %}
+<h1>Available Buses</h1>
+<p class="subtitle">Book a seat with automatic safety allocation for solo female passengers.</p>
+
+<div class="bus-list">
+  {% for bus in buses %}
+  <a class="bus-card" href="{{ url_for('bus_detail', bus_id=bus.id) }}">
+    <h3>{{ bus.name }}</h3>
+    <p>{{ bus.route }}</p>
+    <p class="muted">
+    Departs {{ bus.departure_time }}
+    &middot;
+    {{ bus.bus_type.replace('_', ' + ').title() }}
+    &middot;
+
+    {% if bus.bus_type == "SEATER" %}
+        ₹{{ bus.seater_fare }}/seat
+
+    {% elif bus.bus_type == "SLEEPER" %}
+        ₹{{ bus.sleeper_fare }}/berth
+
+    {% else %}
+        Seater ₹{{ bus.seater_fare }}/seat
+        &middot;
+        Sleeper ₹{{ bus.sleeper_fare }}/berth
+    {% endif %}
+</p>
+  </a>
+  {% else %}
+  <p>No buses yet. Run <code>python seed.py</code> to add sample data.</p>
+  {% endfor %}
+</div>
+{% endblock %}

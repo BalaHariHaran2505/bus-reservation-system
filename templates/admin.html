@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+
+{% block title %}Admin{% endblock %}
+
+{% block content %}
+
+<h1>Admin Dashboard</h1>
+
+<p>
+    <a href="{{ url_for('admin_logout') }}">Log out</a>
+</p>
+
+
+<h2>Add New Bus</h2>
+
+<form method="POST" action="{{ url_for('add_bus') }}" class="admin-form">
+
+    <input
+        type="hidden"
+        name="csrf_token"
+        value="{{ csrf_token() }}"
+    >
+
+    <label>
+        Bus Name
+        <input
+            type="text"
+            name="name"
+            placeholder="KPN Express"
+            required
+        >
+    </label>
+
+    <label>
+        Route
+        <input
+            type="text"
+            name="route"
+            placeholder="Trichy -> Chennai"
+            required
+        >
+    </label>
+
+    <label>
+        Bus Type
+        <select name="bus_type" required>
+            <option value="SEATER">Seater</option>
+            <option value="SLEEPER">Sleeper</option>
+            <option value="SEATER_SLEEPER">
+                Seater + Sleeper
+            </option>
+        </select>
+    </label>
+
+    <label>
+        Number of Rows
+        <input
+            type="number"
+            name="num_rows"
+            value="10"
+            min="1"
+            max="100"
+            required
+        >
+    </label>
+
+    <label>
+        Seater Fare (₹)
+        <input
+            type="number"
+            name="seater_fare"
+            value="500"
+            min="0"
+            required
+        >
+    </label>
+
+    <label>
+        Sleeper Fare (₹)
+        <input
+            type="number"
+            name="sleeper_fare"
+            value="750"
+            min="0"
+            required
+        >
+    </label>
+
+    <label>
+      Ladies Safety Pairs - Lower Deck
+      <input
+          type="number"
+          name="lower_reserved_pairs"
+          value="2"
+          min="0"
+          max="20"
+          required
+      >
+    </label>
+
+    <label>
+        Ladies Safety Pairs - Upper Deck
+        <input
+            type="number"
+            name="upper_reserved_pairs"
+            value="2"
+            min="0"
+            max="20"
+            required
+        >
+    </label>
+
+    <label>
+        Departure Time
+        <input
+            type="time"
+            name="departure_time"
+            required
+        >
+    </label>
+
+    <button type="submit" class="btn btn-primary">
+        Add Bus
+    </button>
+
+</form>
+
+
+<h2>Buses</h2>
+
+<ul>
+
+{% for bus in buses %}
+
+<li>
+    <a href="{{ url_for('bus_detail', bus_id=bus.id) }}">
+        {{ bus.name }}
+    </a>
+
+    &mdash;
+
+    {{ bus.route }}
+
+    &mdash;
+
+    {{ bus.bus_type.replace('_', ' + ').title() }}
+
+    &mdash;
+
+    Seater ₹{{ bus.seater_fare }}
+
+    {% if bus.bus_type != "SEATER" %}
+        | Sleeper ₹{{ bus.sleeper_fare }}
+    {% endif %}
+</li>
+
+{% endfor %}
+
+</ul>
+
+
+<h2>Recent Booking Activity</h2>
+
+<table class="booking-table">
+
+<thead>
+<tr>
+    <th>Time (UTC)</th>
+    <th>Bus</th>
+    <th>Seat</th>
+    <th>Name</th>
+    <th>Gender</th>
+    <th>Action</th>
+    <th>Reserved seat?</th>
+    <th>Fare</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for log in logs %}
+
+<tr>
+
+<td>{{ log.created_at }}</td>
+<td>{{ log.bus_id }}</td>
+<td>{{ log.seat_id }}</td>
+<td>{{ log.passenger_name }}</td>
+<td>{{ log.gender }}</td>
+<td>{{ log.action }}</td>
+<td>{{ 'Yes' if log.used_reserved else 'No' }}</td>
+<td>₹{{ log.fare }}</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+{% endblock %}

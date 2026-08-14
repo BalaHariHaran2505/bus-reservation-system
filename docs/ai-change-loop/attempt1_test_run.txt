@@ -1,0 +1,26 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/claude/bus-reservation
+collecting ... collected 17 items / 15 deselected / 2 selected
+
+tests/test_seat_allocator.py::test_strict_safety_auto_rejects_risky_seat_for_solo_female PASSED [ 50%]
+tests/test_seat_allocator.py::test_strict_safety_manual_rejects_even_with_confirm_true FAILED [100%]
+
+=================================== FAILURES ===================================
+___________ test_strict_safety_manual_rejects_even_with_confirm_true ___________
+
+    def test_strict_safety_manual_rejects_even_with_confirm_true():
+        seats = make_bus_layout(1)
+        a, b, c, d = seats
+        book(seats, a, "M", group_id=1)
+        # On a night bus, forcing seat b (next to unrelated male) must be
+        # rejected even if the passenger passes confirm=True.
+        with pytest.raises(NeedsConfirmationError):
+>           manual_assign(seats, seat_id=b.id, gender="F", confirm=True, strict_safety=True)
+E           TypeError: manual_assign() got an unexpected keyword argument 'strict_safety'
+
+tests/test_seat_allocator.py:190: TypeError
+=========================== short test summary info ============================
+FAILED tests/test_seat_allocator.py::test_strict_safety_manual_rejects_even_with_confirm_true
+================== 1 failed, 1 passed, 15 deselected in 0.05s ==================

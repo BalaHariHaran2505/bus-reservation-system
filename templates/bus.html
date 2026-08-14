@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% block title %}{{ bus.name }}{% endblock %}
+{% block content %}
+<h1>{{ bus.name }}</h1>
+<p class="subtitle">
+    {{ bus.route }}
+    &middot;
+    Departs {{ bus.departure_time }}
+    &middot;
+    {{ bus.bus_type.replace('_', ' + ').title() }}
+
+    {% if bus.bus_type == "SEATER" %}
+
+        &middot; ₹{{ bus.seater_fare }}/seat
+
+    {% elif bus.bus_type == "SLEEPER" %}
+
+        &middot; ₹{{ bus.sleeper_fare }}/berth
+
+    {% else %}
+
+        &middot; Seater ₹{{ bus.seater_fare }}/seat
+        &middot; Sleeper ₹{{ bus.sleeper_fare }}/berth
+
+    {% endif %}
+</p>
+<div class="legend">
+  <span><i class="dot free"></i> Free (general)</span>
+  <span><i class="dot reserved-free"></i> Free (Ladies reserved)</span>
+  <span><i class="dot female"></i> Booked - Female</span>
+  <span><i class="dot male"></i> Booked - Male</span>
+</div>
+
+<div class="layout">
+  <div class="seat-map">
+    {% set decks = [] %}
+    {% for s in seats %}
+      {% if s.deck not in decks %}{% set _ = decks.append(s.deck) %}{% endif %}
+    {% endfor %}
+
+    {% for deck in decks %}
+      {% if deck %}<h3 class="deck-label">{{ deck }}</h3>{% endif %}
+      {% set rows_in_deck = [] %}
+      {% for s in seats if s.deck == deck %}
+        {% if s.row not in rows_in_deck %}{% set _ = rows_in_deck.append(s.row) %}{% endif %}
+      {% endfor %}
+      {% for rownum in rows_in_deck %}
+      <div class="seat-row">
+        <span class="row-label">{{ rownum }}</span>
+        {% for s in seats if s.deck == deck and s.row == rownum %}
+          {% if s.status == 'FREE' %}
+            {% set cls = 'reserved-free' if s.reserved_female else 'free' %}
+            <button type="submit" form="book-form" name="seat_id" value="{{ s.id }}"
+                    class="seat {{ cls }}"
+                    title="Seat {{ s.row }}{{ s.col }}{{ ' (Ladies reserved)' if s.reserved_female else '' }}"
+                    onclick="document.getElementById('mode-input').value='manual';">
+              {{ s.col }}
+            </button>
+          {% else %}
+            {% set cls = 'female' if s.gender == 'F' else 'male' %}
+            <div class="seat {{ cls }} booked" title="{{ s.passenger_name or 'Booked' }}">
+              {{ s.col }}
+            </div>
+          {% endif %}
+          {% if s.aisle_after %}<span class="aisle"></span>{% endif %}
+        {% endfor %}
+      </div>
+      {% endfor %}
+    {% endfor %}
+  </div>
+
+  <div class="booking-panel">
+    <h2>Book a seat</h2>
+    <form id="book-form" method="POST" action="{{ url_for('book_seat', bus_id=bus.id) }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <label>Name
+        <input type="text" name="name" required maxlength="80">
+      </label>
+      <label>Phone (10 digits)
+        <input type="text" name="phone" required pattern="\d{10}" maxlength="10">
+      </label>
+      <label>Gender
+        <select name="gender" required>
+          <option value="">Select</option>
+          <option value="F">Female</option>
+          <option value="M">Male</option>
+        </select>
+      </label>
+      <label>Group size (travelling together)
+        <input type="number" name="group_size" value="1" min="1" max="4">
+      </label>
+      <input type="hidden" id="mode-input" name="mode" value="auto">
+
+      <button type="submit" class="btn btn-primary" onclick="document.getElementById('mode-input').value='auto';">
+        Auto-assign best seat
+      </button>
+      <p class="hint">Solo female passengers are auto-assigned a Ladies-reserved seat first, if one is free. Or click any free seat on the map to choose it yourself &mdash; general seats are open to anyone, reserved (pink) seats are female-only.</p>
+    </form>
+  </div>
+</div>
+
+<h2>Manage a booking</h2>
+<table class="booking-table">
+  <thead><tr><th>Seat</th><th>Name</th><th>Gender</th><th></th></tr></thead>
+  <tbody>
+    {% for s in seats if s.status == 'BOOKED' %}
+    <tr>
+      <td>{{ s.row }}{{ s.col }}{% if s.reserved_female %} <span class="tag">Ladies</span>{% endif %}</td>
+      <td>{{ s.passenger_name }}</td>
+      <td>{{ 'Female' if s.gender == 'F' else 'Male' }}</td>
+      <td>
+        <form method="POST" action="{{ url_for('cancel_seat', bus_id=bus.id, seat_id=s.id) }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button type="submit" class="btn btn-ghost btn-small">Cancel</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

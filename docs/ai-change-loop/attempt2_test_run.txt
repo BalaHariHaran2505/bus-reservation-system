@@ -1,0 +1,25 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/claude/bus-reservation
+collecting ... collected 17 items
+
+tests/test_seat_allocator.py::test_first_booking_on_empty_bus_never_needs_confirmation PASSED [  5%]
+tests/test_seat_allocator.py::test_female_auto_assign_prefers_seat_next_to_another_female PASSED [ 11%]
+tests/test_seat_allocator.py::test_male_auto_assign_avoids_seat_next_to_solo_female_when_alternative_exists PASSED [ 17%]
+tests/test_seat_allocator.py::test_group_booking_can_sit_together_regardless_of_gender PASSED [ 23%]
+tests/test_seat_allocator.py::test_bus_full_of_mixed_strangers_forces_needs_confirmation PASSED [ 29%]
+tests/test_seat_allocator.py::test_group_size_exceeding_any_row_capacity_raises PASSED [ 35%]
+tests/test_seat_allocator.py::test_fully_booked_bus_raises_no_seat_available PASSED [ 41%]
+tests/test_seat_allocator.py::test_invalid_gender_raises PASSED          [ 47%]
+tests/test_seat_allocator.py::test_zero_or_negative_group_size_raises PASSED [ 52%]
+tests/test_seat_allocator.py::test_manual_assign_unknown_seat_id_raises PASSED [ 58%]
+tests/test_seat_allocator.py::test_manual_booking_next_to_stranger_requires_confirmation PASSED [ 64%]
+tests/test_seat_allocator.py::test_manual_booking_next_to_stranger_succeeds_with_confirm_true PASSED [ 70%]
+tests/test_seat_allocator.py::test_manual_booking_next_to_own_group_never_needs_confirmation PASSED [ 76%]
+tests/test_seat_allocator.py::test_manual_booking_already_booked_seat_raises PASSED [ 82%]
+tests/test_seat_allocator.py::test_cancel_booking_frees_seat_and_reopens_safety_options PASSED [ 88%]
+tests/test_seat_allocator.py::test_strict_safety_auto_rejects_risky_seat_for_solo_female PASSED [ 94%]
+tests/test_seat_allocator.py::test_strict_safety_manual_rejects_even_with_confirm_true PASSED [100%]
+
+============================== 17 passed in 0.03s ==============================

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Booking Confirmed{% endblock %}
+{% block content %}
+<h1>Booking Confirmed</h1>
+
+<div class="receipt">
+  <div class="receipt-header">
+    <div>
+      <strong>Booking Ref:</strong> {{ booking_ref }}<br>
+      <strong>Passenger:</strong> {{ passenger_name }} ({{ 'Female' if gender == 'F' else 'Male' }})
+    </div>
+    <div>
+      <strong>{{ bus.name }}</strong><br>
+      {{ bus.route }}<br>
+      Departs {{ bus.departure_time }} &middot; {{ bus.bus_type.replace('_', ' + ').title() }}
+    </div>
+  </div>
+
+  <table class="booking-table">
+    <thead><tr><th>Seat</th><th>Type</th><th>Fare</th></tr></thead>
+    <tbody>
+      {% for item in items %}
+      <tr>
+        <td>{{ item.seat_label }}</td>
+        <td>{{ 'Ladies Reserved' if item.reserved else 'General' }}</td>
+        <td>₹{{ item.fare }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      <tr><td colspan="2"><strong>Total</strong></td><td><strong>₹{{ total }}</strong></td></tr>
+    </tfoot>
+  </table>
+</div>
+
+<p><a href="{{ url_for('bus_detail', bus_id=bus.id) }}" class="btn btn-primary">Back to seat map</a></p>
+{% endblock %}
