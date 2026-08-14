@@ -175,3 +175,45 @@ it was recognising the rule itself was wrong and replacing it with a
 simpler one that has a smaller surface for that kind of mistake. I think
 that's a more useful thing to show than a change loop where nothing ever
 goes wrong.
+
+---
+
+## Current Final State
+
+The current codebase keeps the simpler reserved-quota safety model from
+Attempt 3, with a further refinement to support safety-pair configuration
+on both decks.
+
+The final implementation uses:
+
+- `lower_reserved_pairs` — reserved safety pairs on the lower deck
+- `upper_reserved_pairs` — reserved safety pairs on the upper deck
+
+This allows buses to provide reserved safety-pair options on both decks
+while preserving the original allocation behavior:
+
+- Solo female passengers are auto-assigned a reserved seat first when one
+  is available.
+- Male passengers cannot manually book a female-reserved seat.
+- Group bookings use general seating.
+- General seats remain available without gender-based restrictions.
+
+The test suite was updated to match the new configuration API and an
+additional test was added to verify upper-deck reserved-pair creation.
+
+The final local test run contains:
+
+```text
+18 tests
+18 passed
+0 failed
+The final testing evidence is stored separately in:
+
+- `docs/test-evidence/green_run_output.txt`
+- `docs/test-evidence/red_run_output.txt`
+- `docs/test-evidence/final_run.txt`
+
+The RED RUN was deliberately created using an incorrect test expectation
+to verify that the test suite detects a violation of the reserved-seat
+rule. The production application was not intentionally left in a broken
+state.
