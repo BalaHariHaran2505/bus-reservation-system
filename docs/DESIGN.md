@@ -9,7 +9,8 @@
 | name, route | string | |
 | bus_type | string | SEATER / SLEEPER / SEATER_SLEEPER |
 | num_rows | int | |
-| female_reserved_pairs | int | how many seat PAIRS are Ladies-only |
+| lower_reserved_pairs | int | how many reserved seat pairs are configured on the lower deck |
+| upper_reserved_pairs | int | how many reserved seat pairs are configured on the upper deck |
 | fare_per_seat | int | ₹ per seat |
 | departure_time | string "HH:MM" | |
 
@@ -48,9 +49,11 @@
   the Sleeper layout.
 
 Only paired seats can be Ladies-reserved (a single berth has no adjacency
-risk to begin with). Reserved pairs are assigned front-to-back, e.g. if
-`female_reserved_pairs = 2`, the first 2 seat-pairs on the bus are reserved
-— all other seats are general seating, open to anyone.
+risk to begin with). Reserved pairs are configured independently for the lower and upper
+decks using `lower_reserved_pairs` and `upper_reserved_pairs`.
+Reserved pairs are assigned to available paired seats on the corresponding
+deck. All other seats remain general seating and are open to anyone.
+
 
 ## 3. Key Flow: Booking a Seat
 

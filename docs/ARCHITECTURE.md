@@ -4,9 +4,8 @@
 
 SafeSeat is a small web app for booking bus seats, built around one
 specific piece of functionality: a **reserved-quota safety seating system**
-for female passengers — a fixed number of seat pairs on each bus are
-"Ladies Reserved" (female passengers only), while every other seat is open
-to anyone, no restrictions. This mirrors how real reserved-seat systems
+for female passengers — a configurable number of seat pairs can be reserved on
+the lower and upper decks as "Ladies Reserved" (female passengers only), while every other seat is open to anyone, no restrictions. This mirrors how real reserved-seat systems
 work (e.g. ladies seats on public buses/trains) rather than trying to
 guess who "belongs" next to whom.
 
@@ -43,8 +42,7 @@ guess who "belongs" next to whom.
 - **`app.py`** — Flask routes. Converts DB rows to `Seat` objects, calls the
   allocator, writes results back to the DB, handles validation/CSRF/auth.
 - **`models.py`** — SQLAlchemy models: `Bus`, `SeatRow` (persisted seat
-  state), `BookingLog` (audit trail of every book/cancel action, including
-  whether a safety confirmation was involved).
+  state), `BookingLog` (audit trail of booking and cancellation actions, including whether a safety confirmation was involved).
 - **Templates/static** — server-rendered Jinja2 HTML + a small stylesheet.
   No JS framework; a seat map renders as clickable buttons, kept intentionally
   simple so the assessment's automated tests can drive it without needing a
@@ -64,7 +62,7 @@ guess who "belongs" next to whom.
   MySQL install can still run the repo from the README in under a minute.
 - **The allocator is deliberately decoupled from Flask/SQLAlchemy** — it
   takes and returns plain `Seat` dataclasses. This was a specific design
-  choice: it makes the safety logic unit-testable with 17 fast, deterministic
+  choice: it makes the safety logic unit-testable with 18 fast, deterministic
   pytest cases that need no database, no HTTP client, and no fixtures beyond
   a list of seats — which is exactly what an AI coding agent needs in order
   to run a tight test → fail → fix loop (Stage 3) without also having to
@@ -82,9 +80,10 @@ guess who "belongs" next to whom.
    `seat_allocator.Seat` objects.
 4. `app.py` calls `seat_allocator.auto_assign()` (system picks the seat) or
    `.manual_assign()` (passenger picked a specific seat).
-   - Auto: a solo female is offered a free Ladies-reserved seat first, else
-     a general seat. A male or a group booking only ever draws from general
-     seating.
+   - Auto: a solo female is offered a free Ladies-reserved seat first,
+    including reserved pairs available on the lower or upper deck; otherwise
+    a general seat is used. A male or a group booking only ever draws from
+    general seating.
    - Manual: any free general seat can be booked by anyone. A reserved seat
      can only be booked manually by a female passenger.
 5. On success, `app.py` commits the booking, writes a `BookingLog` row, and

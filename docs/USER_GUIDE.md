@@ -12,18 +12,15 @@ seat map.
 2. If you're travelling with others, set **group size** (up to 4) — you'll
    be seated together.
 3. Tap **Auto-assign best seat**.
-4. If you're a solo female passenger, the system tries to give you a
-   Ladies-reserved seat first. If none are free, you get the next best
-   general seat.
+4. If you're a solo female passenger, the system tries to give you an available         Ladies-reserved seat first, including reserved seats on the lower or upper deck. If none are free, you get the next best general seat. If none are free, you get the next best general seat.
 5. You'll see a bill with your seat and total fare.
 
 ## 3. Book a specific seat yourself
 
 1. Fill in your details as above.
 2. Tap a **free seat** on the map instead of Auto-assign.
-3. **Grey seats** (general) can be booked by anyone — a husband, wife,
-   sibling, or friend can sit wherever there's a free grey seat, no
-   restrictions.
+3. **Grey seats** are general seating and can be booked by any passenger.
+   General seats have no gender-based restriction.
 4. **Light pink seats** are Ladies Reserved — only bookable by a female
    passenger. If a male passenger tries, the booking is rejected with a
    clear message.
@@ -32,8 +29,8 @@ seat map.
 
 - **Grey** = free, general seating — anyone can book it.
 - **Light pink** = free, but reserved for female passengers only.
-- **Dark pink** = booked by a female passenger.
-- **Blue** = booked by a male passenger.
+- **Dark pink** = booked seat occupied by a female passenger.
+- **Blue** = booked seat occupied by a male passenger.
 
 ## 5. Cancelling a booking
 
