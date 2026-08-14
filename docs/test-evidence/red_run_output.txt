@@ -1,26 +1,41 @@
-============================= test session starts ==============================
-platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+================================================ test session starts ================================================
+platform win32 -- Python 3.14.0, pytest-8.2.2, pluggy-1.6.0 -- C:\Users\Hari\Downloads\bus-reservations\venv\Scripts\python.exe
 cachedir: .pytest_cache
-rootdir: /home/claude/bus-reservation
-collecting ... collected 18 items / 17 deselected / 1 selected
+rootdir: C:\Users\Hari\Downloads\bus-reservations\bus-reservation
+collected 19 items / 18 deselected / 1 selected                                                                      
 
-tests/test_seat_allocator.py::test_DELIBERATE_RED_RUN_male_should_not_book_reserved_seat FAILED [100%]
+tests/test_seat_allocator.py::test_DELIBERATE_RED_RUN_male_should_not_book_reserved_seat FAILED                [100%]
 
-=================================== FAILURES ===================================
-__________ test_DELIBERATE_RED_RUN_male_should_not_book_reserved_seat __________
+===================================================== FAILURES ======================================================
+____________________________ test_DELIBERATE_RED_RUN_male_should_not_book_reserved_seat _____________________________
 
     def test_DELIBERATE_RED_RUN_male_should_not_book_reserved_seat():
-        seats = make_bus_layout(3, bus_type="SEATER", female_reserved_pairs=1)
-        reserved_seat = next(s for s in seats if s.reserved_female)
-        # WRONG on purpose: real code raises ReservedSeatError here, so
-        # asserting a successful booking will FAIL.
->       chosen = manual_assign(seats, seat_id=reserved_seat.id, gender="M")
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    
+        seats = make_bus_layout(
+            3,
+            bus_type="SEATER",
+            lower_reserved_pairs=1,
+            upper_reserved_pairs=0
+        )
+    
+        reserved_seat = next(
+            s for s in seats
+            if s.reserved_female
+        )
+    
+        # WRONG ON PURPOSE:
+        # A male should NOT be allowed to book this seat.
+        # The application will raise ReservedSeatError.
+>       chosen = manual_assign(
+            seats,
+            seat_id=reserved_seat.id,
+            gender="M"
+        )
 
-tests/test_seat_allocator.py:188: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests\test_seat_allocator.py:539: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-seats = [Seat(id=1, row=1, col='A', pair_id=0, aisle_after=False, deck=None, reserved_female=True, status=<SeatStatus.FREE: 'F...k=None, reserved_female=False, status=<SeatStatus.FREE: 'FREE'>, gender=None, group_id=None, passenger_name=None), ...]
+seats = [Seat(id=1, row=1, col='A', pair_id=0, aisle_after=False, deck='Lower Deck', reserved_female=True, status=<SeatStatus.... Deck', reserved_female=False, status=<SeatStatus.FREE: 'FREE'>, gender=None, group_id=None, passenger_name=None), ...]
 seat_id = 1, gender = <Gender.MALE: 'M'>
 
     def manual_assign(seats: List[Seat], seat_id: int, gender) -> Seat:
@@ -44,6 +59,6 @@ seat_id = 1, gender = <Gender.MALE: 'M'>
 E           seat_allocator.ReservedSeatError: This seat is reserved for female passengers. Please choose another seat.
 
 seat_allocator.py:186: ReservedSeatError
-=========================== short test summary info ============================
-FAILED tests/test_seat_allocator.py::test_DELIBERATE_RED_RUN_male_should_not_book_reserved_seat
-======================= 1 failed, 17 deselected in 0.04s =======================
+============================================== short test summary info ==============================================
+FAILED tests/test_seat_allocator.py::test_DELIBERATE_RED_RUN_male_should_not_book_reserved_seat - seat_allocator.ReservedSeatError: This seat is reserved for female passengers. Please choose another seat.
+========================================= 1 failed, 18 deselected in 0.23s ==========================================

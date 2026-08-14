@@ -508,11 +508,38 @@ def test_cancel_frees_seat_but_keeps_reserved_flag():
 
 
 # ---------- DELIBERATE RED RUN ----------
+# # ---------- DELIBERATE RED RUN ----------
+# #
+# # This test is intentionally WRONG.
+# # It expects a male passenger to successfully book
+# # a seat that is reserved for female passengers.
+# #
+# # The actual application correctly raises ReservedSeatError.
+# #
+# # This test is used only to demonstrate that the test
+# # suite can detect an intentional regression.
 
-# DO NOT enable this yet.
-#
-# We will use a separate controlled failure later for
-# Tactive's mandatory RED RUN evidence.
-#
-# The idea is to intentionally make this test fail,
-# capture the failure, then restore the correct code.
+# def test_DELIBERATE_RED_RUN_male_should_not_book_reserved_seat():
+
+#     seats = make_bus_layout(
+#         3,
+#         bus_type="SEATER",
+#         lower_reserved_pairs=1,
+#         upper_reserved_pairs=0
+#     )
+
+#     reserved_seat = next(
+#         s for s in seats
+#         if s.reserved_female
+#     )
+
+#     # WRONG ON PURPOSE:
+#     # A male should NOT be allowed to book this seat.
+#     # The application will raise ReservedSeatError.
+#     chosen = manual_assign(
+#         seats,
+#         seat_id=reserved_seat.id,
+#         gender="M"
+#     )
+
+#     assert chosen.id == reserved_seat.id
