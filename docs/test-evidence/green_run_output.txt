@@ -1,25 +1,26 @@
-============================= test session starts ==============================
-platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+================================================ test session starts ================================================
+platform win32 -- Python 3.14.0, pytest-8.2.2, pluggy-1.6.0 -- C:\Users\Hari\Downloads\bus-reservations\venv\Scripts\python.exe
 cachedir: .pytest_cache
-rootdir: /home/claude/bus-reservation
-collecting ... collected 17 items
+rootdir: C:\Users\Hari\Downloads\bus-reservations\bus-reservation
+collected 18 items                                                                                                   
 
-tests/test_seat_allocator.py::test_solo_female_auto_gets_reserved_seat_when_available PASSED [  5%]
-tests/test_seat_allocator.py::test_solo_male_auto_never_gets_a_reserved_seat PASSED [ 11%]
-tests/test_seat_allocator.py::test_solo_female_auto_falls_back_to_general_when_reserved_full PASSED [ 17%]
-tests/test_seat_allocator.py::test_couple_can_sit_together_in_general_seating_without_any_block PASSED [ 23%]
-tests/test_seat_allocator.py::test_male_can_manually_book_seat_next_to_unrelated_female_in_general_seating PASSED [ 29%]
-tests/test_seat_allocator.py::test_manual_male_booking_of_reserved_seat_is_rejected PASSED [ 35%]
-tests/test_seat_allocator.py::test_manual_female_booking_of_reserved_seat_succeeds PASSED [ 41%]
-tests/test_seat_allocator.py::test_group_booking_ignores_reserved_seats_even_if_free PASSED [ 47%]
-tests/test_seat_allocator.py::test_group_booking_finds_contiguous_general_block PASSED [ 52%]
-tests/test_seat_allocator.py::test_sleeper_layout_has_single_and_double_berths PASSED [ 58%]
-tests/test_seat_allocator.py::test_seater_sleeper_mix_has_both_decks PASSED [ 64%]
-tests/test_seat_allocator.py::test_unknown_bus_type_raises PASSED        [ 70%]
-tests/test_seat_allocator.py::test_invalid_gender_raises PASSED          [ 76%]
-tests/test_seat_allocator.py::test_zero_group_size_raises PASSED         [ 82%]
-tests/test_seat_allocator.py::test_manual_assign_unknown_seat_id_raises PASSED [ 88%]
-tests/test_seat_allocator.py::test_manual_assign_already_booked_seat_raises PASSED [ 94%]
-tests/test_seat_allocator.py::test_cancel_frees_seat_but_keeps_reserved_flag PASSED [100%]
+tests/test_seat_allocator.py::test_solo_female_auto_gets_reserved_seat_when_available PASSED                   [  5%]
+tests/test_seat_allocator.py::test_solo_male_auto_never_gets_a_reserved_seat PASSED                            [ 11%]
+tests/test_seat_allocator.py::test_solo_female_auto_falls_back_to_general_when_reserved_full PASSED            [ 16%]
+tests/test_seat_allocator.py::test_couple_can_sit_together_in_general_seating_without_any_block PASSED         [ 22%]
+tests/test_seat_allocator.py::test_male_can_manually_book_seat_next_to_unrelated_female_in_general_seating PASSED [ 27%]
+tests/test_seat_allocator.py::test_manual_male_booking_of_reserved_seat_is_rejected PASSED                     [ 33%]
+tests/test_seat_allocator.py::test_manual_female_booking_of_reserved_seat_succeeds PASSED                      [ 38%]
+tests/test_seat_allocator.py::test_group_booking_ignores_reserved_seats_even_if_free PASSED                    [ 44%]
+tests/test_seat_allocator.py::test_group_booking_finds_contiguous_general_block PASSED                         [ 50%]
+tests/test_seat_allocator.py::test_sleeper_layout_has_single_and_double_berths PASSED                          [ 55%]
+tests/test_seat_allocator.py::test_seater_sleeper_mix_has_both_decks PASSED                                    [ 61%]
+tests/test_seat_allocator.py::test_upper_deck_reserved_pairs_are_created PASSED                                [ 66%]
+tests/test_seat_allocator.py::test_unknown_bus_type_raises PASSED                                              [ 72%]
+tests/test_seat_allocator.py::test_invalid_gender_raises PASSED                                                [ 77%]
+tests/test_seat_allocator.py::test_zero_group_size_raises PASSED                                               [ 83%]
+tests/test_seat_allocator.py::test_manual_assign_unknown_seat_id_raises PASSED                                 [ 88%]
+tests/test_seat_allocator.py::test_manual_assign_already_booked_seat_raises PASSED                             [ 94%]
+tests/test_seat_allocator.py::test_cancel_frees_seat_but_keeps_reserved_flag PASSED                            [100%]
 
-============================== 17 passed in 0.03s ==============================
+================================================ 18 passed in 0.10s =================================================
