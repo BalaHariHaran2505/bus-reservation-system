@@ -2,7 +2,7 @@
 
 ## 📌 Assessment Deliverables
 
-🎥 **Demo Video (MP4):** 
+🎥 **Demo Video (MP4):** (https://drive.google.com/file/d/1rYe86wAUgk3wpDMUCc12rSYrZPzeBKDo/view?usp=drivesdk)
 
 📊 **Presentation Deck (PDF):** (https://github.com/BalaHariHaran2505/bus-reservation-system/blob/main/docs/Presentaion_deck/SafeSeat_Tactive_Presentation.pdf)
 
