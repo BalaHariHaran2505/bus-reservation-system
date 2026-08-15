@@ -1,5 +1,11 @@
 # SafeSeat — Bus Seat Reservation with Ladies-Reserved Seating
 
+## 📌 Assessment Deliverables
+
+🎥 **Demo Video (MP4):** 
+
+📊 **Presentation Deck (PDF):** (docs/Presentaion_deck/SafeSeat_Tactive_Presentation.pdf)
+
 A bus seat booking app built for the Tactive internship assessment. Core
 feature: each bus can configure reserved seat **pairs** for female passengers
 on its lower and upper decks. Every other seat is open to anyone, so couples,
