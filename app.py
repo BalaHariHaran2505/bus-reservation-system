@@ -152,9 +152,17 @@ def validate_passenger_input(name, phone, gender):
 def index():
     buses = Bus.query.all()
 
+    seats_left = {}
+    for bus in buses:
+        rows, _ = bus_seats_as_sa(bus.id)
+        seats_left[bus.id] = sum(
+            1 for r in rows if r.status == "FREE"
+        )
+
     return render_template(
         "index.html",
-        buses=buses
+        buses=buses,
+        seats_left=seats_left
     )
 
 
@@ -164,10 +172,15 @@ def bus_detail(bus_id):
 
     rows, _ = bus_seats_as_sa(bus_id)
 
+    seats_left = sum(
+        1 for r in rows if r.status == "FREE"
+    )
+
     return render_template(
         "bus.html",
         bus=bus,
-        seats=rows
+        seats=rows,
+        seats_left=seats_left
     )
 
 

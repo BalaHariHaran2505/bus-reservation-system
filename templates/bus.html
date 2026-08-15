@@ -24,6 +24,15 @@
 
     {% endif %}
 </p>
+
+{% if seats_left == 0 %}
+<div class="full-banner">
+  This bus is fully booked &mdash; no free seats remain.
+</div>
+{% else %}
+<p class="muted">{{ seats_left }} seat{{ '' if seats_left == 1 else 's' }} left</p>
+{% endif %}
+
 <div class="legend">
   <span><i class="dot free"></i> Free (general)</span>
   <span><i class="dot reserved-free"></i> Free (Ladies reserved)</span>

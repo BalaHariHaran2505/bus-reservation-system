@@ -7,7 +7,12 @@
 <div class="bus-list">
   {% for bus in buses %}
   <a class="bus-card" href="{{ url_for('bus_detail', bus_id=bus.id) }}">
-    <h3>{{ bus.name }}</h3>
+    <h3>
+      {{ bus.name }}
+      {% if seats_left[bus.id] == 0 %}
+        <span class="badge badge-full">FULL</span>
+      {% endif %}
+    </h3>
     <p>{{ bus.route }}</p>
     <p class="muted">
     Departs {{ bus.departure_time }}

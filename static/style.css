@@ -87,3 +87,62 @@ body {
 .flash-warning { background: rgba(224,168,59,0.15); color: var(--warn); border: 1px solid var(--warn); }
 
 footer { text-align: center; padding: 24px; color: var(--muted); font-size: 0.8rem; }
+/* Add New Bus form */
+.admin-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+}
+.admin-form label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.admin-form input,
+.admin-form select {
+  width: 100%;
+  padding: 9px 10px;
+  margin-top: 6px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+.admin-form input:focus,
+.admin-form select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+.admin-form button {
+  grid-column: 1 / -1;
+  justify-self: start;
+  margin-top: 4px;
+}
+/* Full-bus indicators */
+.badge-full {
+  display: inline-block;
+  background: rgba(224,85,59,0.18);
+  color: var(--danger);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+.full-banner {
+  background: rgba(224,85,59,0.12);
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin: 12px 0;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
