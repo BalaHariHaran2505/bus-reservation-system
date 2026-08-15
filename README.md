@@ -4,7 +4,7 @@
 
 🎥 **Demo Video (MP4):** 
 
-📊 **Presentation Deck (PDF):** (docs/Presentaion_deck/SafeSeat_Tactive_Presentation.pdf)
+📊 **Presentation Deck (PDF):** (https://github.com/BalaHariHaran2505/bus-reservation-system/blob/main/docs/Presentaion_deck/SafeSeat_Tactive_Presentation.pdf)
 
 A bus seat booking app built for the Tactive internship assessment. Core
 feature: each bus can configure reserved seat **pairs** for female passengers
